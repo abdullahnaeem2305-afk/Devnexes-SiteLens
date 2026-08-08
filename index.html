@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SiteLens — Website Quality Diagnostics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <div>
+        <h1>SiteLens</h1>
+        <p class="tag">Website quality diagnostics</p>
+      </div>
+    </div>
+    <div class="status-chip"><span class="dot"></span> Auditor online</div>
+  </header>
+
+  <main class="container">
+    <section class="audit-panel card">
+      <h2><span class="idx">01</span> Aim the lens</h2>
+      <div class="form-row">
+        <input id="url-input" placeholder="example.com" autocomplete="off" />
+        <button id="audit-btn" type="button">Run audit</button>
+      </div>
+      <p id="normalized" class="normalized-message" hidden></p>
+      <p id="validation" class="validation" role="alert"></p>
+      <div id="progress" class="progress" hidden>
+        <div class="scan-track" aria-hidden="true"></div>
+        <div id="stage">Idle</div>
+      </div>
+    </section>
+
+    <section class="results-panel card">
+      <h2><span class="idx">02</span> Readout</h2>
+      <div id="summary" class="empty-state">No scans yet — enter a URL above to run your first audit.</div>
+      <div id="dashboard" hidden>
+        <div id="overall"></div>
+        <div id="charts" class="dials"></div>
+        <div id="issues"></div>
+      </div>
+    </section>
+
+    <section class="history-panel card">
+      <h2><span class="idx">03</span> Scan log</h2>
+      <div id="history" class="empty-state">No scans logged yet.</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    SiteLens — audit responsibly. No private/internal hosts allowed.
+  </footer>
+
+  <script src="dashboard.js"></script>
+  <script src="charts.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

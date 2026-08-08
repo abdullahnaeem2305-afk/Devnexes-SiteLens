@@ -1,0 +1,26 @@
+{
+  "name": "devnexes-sitelens",
+  "version": "1.0.0",
+  "description": "SiteLens — website quality auditing platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axe-core": "^4.7.2",
+    "cheerio": "^1.0.0-rc.12",
+    "chrome-launcher": "^1.1.0",
+    "cross-fetch": "^3.1.8",
+    "express": "^4.18.2",
+    "jsdom": "^22.1.0",
+    "lighthouse": "^11.2.0",
+    "sqlite3": "^5.1.6",
+    "uuid": "^9.0.0",
+    "dotenv": "^16.0.3"
+  }
+}

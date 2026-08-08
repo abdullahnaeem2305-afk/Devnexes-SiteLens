@@ -1,0 +1,6 @@
+function generateReportHtml(result){
+  const dt = new Date(result.timestamp || Date.now()).toLocaleString();
+  const issuesHtml = (result.issues||[]).map(i=>`<div style="border-left:4px solid #2563eb;padding:8px;margin-bottom:8px;background:#fff"><h4>${i.title} <small style="color:#6b7280">${i.category} • ${i.severity}</small></h4><p>${i.description}</p><pre style="background:#f3f4f6;padding:8px">${escape(i.evidence||'')}</pre><p><strong>Recommendation:</strong> ${i.recommendation}</p></div>`).join('\n')||'<div class="empty">No issues found</div>';
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SiteLens Report</title><style>body{font-family:Arial,Helvetica,sans-serif;padding:24px;background:#f6f8fa} .card{background:#fff;padding:16px;border-radius:8px;margin-bottom:12px}</style></head><body><header><h1>SiteLens Report</h1><p>${result.url} — ${dt}</p></header><section class="card"><h2>Summary</h2><p>Overall score: ${result.scores.overall||0}</p></section><section class="card"><h2>Issues</h2>${issuesHtml}</section></body></html>`}
+function escape(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+module.exports = {generateReportHtml};
