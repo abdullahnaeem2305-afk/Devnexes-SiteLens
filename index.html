@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devnexes SiteLens - Advanced Web Auditor</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom CSS for progressive meters and animations -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Tab Icon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔎</text></svg>">
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 antialiased font-sans flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="bg-blue-600 text-white p-2 rounded-xl shadow-md shadow-blue-200">
+          <!-- Glass icon -->
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+            Devnexes <span class="text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-lg text-sm font-bold border border-blue-100">SiteLens</span>
+          </h1>
+          <p class="text-[10px] text-slate-400 font-medium tracking-wide uppercase">Multi-Engine Core Web Auditor</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2 text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 pulsing-dot"></span>
+        Audit Sandbox Active
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-6">
+    
+    <!-- Top Scanner Panel -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 md:p-8 shadow-sm">
+      <div class="max-w-3xl mx-auto text-center mb-6">
+        <h2 class="text-2xl font-black text-slate-900 tracking-tight sm:text-3xl">Scan, Discover, and Refine Your Website</h2>
+        <p class="mt-2 text-sm text-slate-500 max-w-xl mx-auto">
+          Evaluate SEO signals, pinpoint axe-core accessibility compliance errors, analyze security response headers, and generate instant optimization reports.
+        </p>
+      </div>
+
+      <form id="scan-form" class="max-w-2xl mx-auto">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+              <span class="text-sm font-semibold">https://</span>
+            </div>
+            <input 
+              type="text" 
+              id="target-url" 
+              placeholder="example.com/blog-post" 
+              required
+              class="w-full pl-16 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white text-sm font-semibold transition-all shadow-inner"
+            />
+          </div>
+          <button 
+            type="submit" 
+            id="scan-btn"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3.5 rounded-2xl shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2.5 flex-shrink-0 text-sm"
+          >
+            <!-- Spinner -->
+            <svg id="btn-spinner" class="animate-spin h-4 w-4 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span id="btn-text">Launch SiteLens Audit</span>
+          </button>
+        </div>
+        <p class="mt-2 text-center text-[11px] text-slate-400">
+          🛡️ Includes DNS loopback resolution checks to guarantee full SSRF protection.
+        </p>
+      </form>
+    </section>
+
+    <!-- Error Banner -->
+    <div id="error-banner" class="hidden bg-rose-50 border border-red-200 rounded-2xl p-4 flex gap-3 items-start max-w-3xl mx-auto w-full">
+      <span class="text-red-500 flex-shrink-0 mt-0.5">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </span>
+      <div>
+        <h4 class="font-bold text-red-900 text-sm">Audit Scan Blocked or Interrupted</h4>
+        <p id="error-msg" class="text-xs text-red-700 mt-1"></p>
+      </div>
+      <button onclick="clearError()" class="ml-auto text-red-400 hover:text-red-600">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Dashboard Content Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Sidebar List (Column 1-4) -->
+      <section class="lg:col-span-4 bg-white rounded-3xl border border-slate-200 p-5 shadow-sm flex flex-col gap-5">
+        <div>
+          <h3 class="font-black text-slate-900 text-lg">Audit History</h3>
+          <p class="text-xs text-slate-400">Most recent scans stored locally</p>
+        </div>
+
+        <!-- Scrollable list container -->
+        <div id="history-list" class="max-h-[380px] overflow-y-auto pr-1">
+          <!-- Populated by app.js -->
+        </div>
+
+        <!-- Sidebar Trend Chart (Visualizer) -->
+        <div class="border-t border-slate-100 pt-5">
+          <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Overall Score Progression</h4>
+          <div id="trend-chart-container" class="h-44 w-full">
+            <!-- Populated by charts.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Statistics Panel (Column 5-12) -->
+      <section class="lg:col-span-8">
+        
+        <!-- Empty State (No audits completed yet) -->
+        <div id="empty-state" class="bg-white rounded-3xl border border-slate-200 p-12 text-center shadow-sm h-full flex flex-col items-center justify-center min-h-[500px]">
+          <div class="bg-blue-50 text-blue-600 p-4 rounded-full mb-4">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="font-extrabold text-slate-900 text-xl">No Website Audited</h3>
+          <p class="text-slate-500 text-sm max-w-sm mt-1.5 mx-auto">
+            Provide a public absolute URL in the scanner above to trigger a full real-time audit scan.
+          </p>
+        </div>
+
+        <!-- Active Audit details -->
+        <div id="details-panel" class="hidden flex flex-col gap-6">
+          
+          <!-- Selected URL Header Block -->
+          <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100 uppercase tracking-wider">Scanned Site</span>
+                <span class="text-xs text-slate-400" id="display-time">N/A</span>
+              </div>
+              <a 
+                id="display-url" 
+                href="#" 
+                target="_blank" 
+                class="text-lg md:text-xl font-black text-slate-950 hover:text-blue-600 hover:underline break-all block leading-tight"
+              >
+                N/A
+              </a>
+            </div>
+            
+            <a 
+              id="export-report-btn"
+              href="#"
+              class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-5 py-3 rounded-2xl flex items-center gap-2.5 transition-all self-stretch md:self-auto justify-center"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Export HTML Report
+            </a>
+          </div>
+
+          <!-- Metadata Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm text-center">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Latency (TTFB)</span>
+              <div class="flex justify-center mt-1">
+                <span id="meta-latency-pill" class="bg-slate-50 text-slate-700 px-3 py-1 rounded-full text-xs font-semibold border border-slate-100 flex items-center gap-1.5">
+                  <span id="meta-latency">0 ms</span>
+                </span>
+              </div>
+            </div>
+            <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm text-center">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">HTML Payload</span>
+              <span class="text-sm font-bold text-slate-800 block mt-1.5" id="meta-size">0 KB</span>
+            </div>
+            <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm text-center">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Resolved IP</span>
+              <span class="text-sm font-bold text-slate-800 block mt-1.5 truncate" id="meta-ip">N/A</span>
+            </div>
+            <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm text-center">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Protocol</span>
+              <span class="text-sm font-bold text-blue-600 block mt-1.5 uppercase" id="meta-protocol">N/A</span>
+            </div>
+          </div>
+
+          <!-- Scores Circles -->
+          <div class="grid grid-cols-5 gap-3" id="metric-gauges-container">
+            <!-- Populated by dashboard.js -->
+          </div>
+
+          <!-- Stats Counters -->
+          <div class="bg-slate-900 text-white rounded-3xl p-5 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-red-500/10 text-red-400 border border-red-500/20 p-2 rounded-xl">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </span>
+              <div>
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Critical Failures</div>
+                <div class="text-xl font-extrabold text-white" id="count-critical">0</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 p-2 rounded-xl">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </span>
+              <div>
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Warnings & Lows</div>
+                <div class="text-xl font-extrabold text-white" id="count-warning">0</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 p-2 rounded-xl">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </span>
+              <div>
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Passed Checks</div>
+                <div class="text-xl font-extrabold text-white" id="count-passed">0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Audits List Section -->
+          <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+            
+            <!-- Category Filtering Pills -->
+            <div class="mb-6">
+              <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Filter by Category</div>
+              <div class="flex flex-wrap gap-2">
+                <button 
+                  onclick="setCategoryFilter('all')" 
+                  data-category="all"
+                  class="category-filter-btn px-4 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-blue-600 text-white transition-all"
+                >
+                  All Categories
+                </button>
+                <button 
+                  onclick="setCategoryFilter('Security')" 
+                  data-category="Security"
+                  class="category-filter-btn px-4 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                  Security
+                </button>
+                <button 
+                  onclick="setCategoryFilter('SEO')" 
+                  data-category="SEO"
+                  class="category-filter-btn px-4 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                  SEO / Cheerio
+                </button>
+                <button 
+                  onclick="setCategoryFilter('Accessibility')" 
+                  data-category="Accessibility"
+                  class="category-filter-btn px-4 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                  Accessibility / Axe
+                </button>
+                <button 
+                  onclick="setCategoryFilter('Best Practices')" 
+                  data-category="Best Practices"
+                  class="category-filter-btn px-4 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                  Best Practices / Lighthouse
+                </button>
+                <button 
+                  onclick="setCategoryFilter('Performance')" 
+                  data-category="Performance"
+                  class="category-filter-btn px-4 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                  Performance / Speed
+                </button>
+              </div>
+            </div>
+
+            <!-- Severity Filtering (Hidden unless failed tab is selected) -->
+            <div class="mb-6">
+              <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Filter by Severity</div>
+              <div class="flex flex-wrap gap-2">
+                <button 
+                  onclick="setSeverityFilter('all')" 
+                  data-severity="all"
+                  class="severity-filter-btn px-4.5 py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-blue-600 text-white transition-all"
+                >
+                  All Severities
+                </button>
+                <button 
+                  onclick="setSeverityFilter('critical')" 
+                  data-severity="critical"
+                  class="severity-filter-btn px-4.5 py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                  Critical / High
+                </button>
+                <button 
+                  onclick="setSeverityFilter('warning')" 
+                  data-severity="warning"
+                  class="severity-filter-btn px-4.5 py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                  Warning / Medium
+                </button>
+                <button 
+                  onclick="setSeverityFilter('low')" 
+                  data-severity="low"
+                  class="severity-filter-btn px-4.5 py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                  Low
+                </button>
+              </div>
+            </div>
+
+            <!-- Findings Tabs Header -->
+            <div class="flex border-b border-slate-100 mb-6" id="findings-tabs">
+              <!-- Rendered by dashboard.js -->
+            </div>
+
+            <!-- Findings List container -->
+            <div id="findings-container" class="space-y-4">
+              <!-- Rendered by dashboard.js -->
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-12 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-xs text-slate-400">
+        © 2026 Devnexes SiteLens. Flat structure project build. Built for performance, security, SEO & accessibility.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Connect JS Files directly -->
+  <script src="charts.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

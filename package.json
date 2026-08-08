@@ -1,0 +1,14 @@
+{
+  "name": "devnexes-sitelens",
+  "version": "1.0.0",
+  "description": "Flat structure single-folder SiteLens web auditor",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  },
+  "author": "Devnexes",
+  "license": "ISC"
+}
